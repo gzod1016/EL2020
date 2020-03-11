@@ -7,7 +7,7 @@ import os
 #Assign GPIO pins
 redPin = 27
 tempPin = 17
-buttonPin = 26
+touchPin = 26
 
 #Temp and Humidity Sensor
 tempSensor = Adafruit_DHT.DHT11
@@ -22,7 +22,7 @@ blinkTime = 7
 #Initialize the GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(redPin,GPIO.OUT)
-GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(touchPin,GPIO.IN)
 
 def oneBlink(pin):
      GPIO.output(pin,True)
@@ -42,15 +42,15 @@ def readF(tempPin):
 
 try:
      while True:
-          input_state = GPIO.input(buttonPin)
-          if input_state == False:
+          input_state = GPIO.input(touchPin)
+          if  input_state == True:
                for i in range (blinkTime):
-                    oneBLink(redPin)
+                   oneBlink(redPin)
                time.sleep(.2)
                data = readF(tempPin)
                print (data)
 
 except KeyboardInterrupt:
-     os.system('clear')
-     print('Thanks for Blinking and Thinking!')
-     GPIO.cleanup() 
+	os.system('clear')
+	print('Thanks for Blinking and Thinking!')
+	GPIO.cleanup()
